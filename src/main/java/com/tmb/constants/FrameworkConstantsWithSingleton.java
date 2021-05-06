@@ -14,7 +14,7 @@ public final class FrameworkConstantsWithSingleton {
 	
 	private FrameworkConstantsWithSingleton() {} //creating object from other files //Eager
 	
-	private static final FrameworkConstantsWithSingleton INSTANCE = null;
+	private static FrameworkConstantsWithSingleton INSTANCE = null;
 	
 	public static synchronized FrameworkConstantsWithSingleton getInstance() {
 		if(INSTANCE==null) {
