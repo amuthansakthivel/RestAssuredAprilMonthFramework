@@ -1,0 +1,13 @@
+{
+    "id": 999,
+    "first_name": "fname",
+    "last_name": "Sakthivel1",
+    "email": "checking@gmail.com",
+    "job":["tester","trainer"],
+	"empid":14,
+    "favfood":{
+        "breakfast":"dosa",
+        "lunch":"rice",
+		"dinner":["chapathi","chicken"]
+    }
+}
