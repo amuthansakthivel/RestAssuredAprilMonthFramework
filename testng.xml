@@ -4,6 +4,7 @@
 <listeners>
     <listener class-name="com.tmb.listeners.ListenerClass" />
     <listener class-name="com.tmb.listeners.AnnotationTransformer" />
+     <listener class-name="com.tmb.listeners.MethodInterceptor" />
 </listeners>
 
   <test thread-count="1" name="Test" parallel="methods">
@@ -12,6 +13,8 @@
       <class name="com.tmb.tests.BaseTest"/>
       <class name="com.tmb.tests.EmployeesPostTests"/>
        <class name="com.tmb.tests.EmployeeGetTest"/>
+       <class name="com.tmb.tests.PostRequestTests"/>
+        <class name="com.tmb.tests.PostRequestWithBuildersTests"/>
     </classes>
   </test> <!-- Test -->
 </suite> <!-- Suite -->

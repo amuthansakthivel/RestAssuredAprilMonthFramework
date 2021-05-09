@@ -1,6 +1,7 @@
 package com.tmb.reports;
 
-import com.aventstack.extentreports.markuputils.Markup;
+import com.aventstack.extentreports.markuputils.CodeLanguage;
+import com.aventstack.extentreports.markuputils.MarkupHelper;
 
 public final class ExtentLogger {
 
@@ -19,8 +20,23 @@ public final class ExtentLogger {
 	public static void info(String message) {
 		ExtentManager.getExtentTest().info(message);
 	}
-	public static void info(Markup markup) {
-		ExtentManager.getExtentTest().info(markup);
+	
+	public static void logStackTraceInfoInExtentReport(String message) {
+		String formattedText = "<pre>"+ message.replace(",", "<br>") + "</pre>";
+		ExtentManager.getExtentTest().fail(formattedText);
+	}
+	
+	public static void logRequestAndResponseInReport(String request, String response) {
+		logPrettyRequestToReport(request);
+		logPrettyResponseToReport(response);
+	}
+
+	private static void logPrettyResponseToReport(String response) {
+		ExtentManager.getExtentTest().info(MarkupHelper.createCodeBlock(response, CodeLanguage.JSON));
+	}
+
+	private static void logPrettyRequestToReport(String request) {
+		ExtentManager.getExtentTest().info("<pre>"+ request.replace("\n", "<br>") + "</pre>");
 	}
 
 

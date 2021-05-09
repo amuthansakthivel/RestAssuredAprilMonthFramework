@@ -12,6 +12,7 @@ public final class FrameworkConstantsWithEagerLoading {
 	private static final Map<Constants,String> CONSTANTS = new HashMap<>();
 
 	//executed the class file is loaded in the memory
+	//More efficient way of storing constants in a Map - Recommended
 
 	static {
 		CONSTANTS.put(Constants.BASEURI, "http://localhost:3000");

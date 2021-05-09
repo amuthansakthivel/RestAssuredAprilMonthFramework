@@ -18,7 +18,8 @@ public final class ExtentReport {
 	
 	public static void initReports() {
 		extent = new ExtentReports();
-		ExtentSparkReporter spark = new ExtentSparkReporter("index.html");
+		ExtentSparkReporter spark = new ExtentSparkReporter(System.getProperty("user.dir")+
+				"/extent-output/index.html");
 		spark.config().setTheme(Theme.DARK);
 		spark.config().setDocumentTitle("Rest Assured Framework");
 		extent.attachReporter(spark);
@@ -26,7 +27,8 @@ public final class ExtentReport {
 	
 	public static void tearDownReports() throws IOException {
 		extent.flush();
-		Desktop.getDesktop().browse(new File("index.html").toURI());
+		Desktop.getDesktop().browse(new File(System.getProperty("user.dir")+
+				"/extent-output/index.html").toURI());
 	}
 	
 	public static void createTest(String testcasename) {

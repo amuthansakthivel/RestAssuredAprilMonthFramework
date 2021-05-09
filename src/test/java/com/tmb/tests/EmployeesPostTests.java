@@ -9,8 +9,6 @@ import java.util.Map;
 
 import org.testng.annotations.Test;
 
-import com.aventstack.extentreports.markuputils.CodeLanguage;
-import com.aventstack.extentreports.markuputils.MarkupHelper;
 import com.tmb.constants.FrameworkConstants;
 import com.tmb.constants.StringConstants;
 import com.tmb.reports.ExtentLogger;
@@ -18,21 +16,21 @@ import com.tmb.requestbuilder.RequestBuilder;
 import com.tmb.utils.RandomUtils;
 import com.tmb.utils.TestUtils;
 
+import io.restassured.filter.log.RequestLoggingFilter;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 
-public class EmployeesPostTests {
+public class EmployeesPostTests extends  BaseTest {
 	
 	
 
 	//5 solid principles --> follow these to create clean code
 	// write a clean readable maintable code --> 5 solid principles will fall in place
-
-	//String, hashmap, file, read file and replace certain values, pojo and pjo with builder
-
+	//String, hashmap, file, read file and replace certain values, pojo and pojo with builder
 	//Unirest , rest assured, http client
 
-	
+	//This is just to demonstrate how to pass request as string
+	//This test is disabled and will not be ran
 	@Test(enabled=false)
 	public void postRequestAsString() {
 
@@ -56,21 +54,20 @@ public class EmployeesPostTests {
 		
 
 		Response response = RequestBuilder.getBuilder()
+				.filter(new RequestLoggingFilter(captor)) //to log the request component to extent report
 				.body(map)
 				.post(FrameworkConstants.getEmployeesEndpoint());
 
-		logResponse(response);
-		response.prettyPrint();
+		
+		ExtentLogger.logRequestAndResponseInReport(writer.toString(), response.prettyPrint());
 
 		assertThat(response.getStatusCode()).isEqualTo(Integer.parseInt(data.get("statuscode")));
 
 	}
 	
 
-	private void logResponse(Response response) {
-		ExtentLogger.info(MarkupHelper.createCodeBlock(response.asPrettyString(), CodeLanguage.JSON));
-	}
-
+	
+	//This test is to demonstrate how to read a file and convert to string to construct req body
 	@Test(enabled=false)
 	public void postRequestByReadingJsonFile(String filename) throws IOException {
 
@@ -84,7 +81,7 @@ public class EmployeesPostTests {
 
 		response.prettyPrint();
 
-		assertThat(response.getStatusCode()).isEqualTo(201);
+		assertThat(response.getStatusCode()).isEqualTo(FrameworkConstants.STATUSCODE_201);
 	}
 
 	private String prepareJsonForAddEmployee(String reqBody) {

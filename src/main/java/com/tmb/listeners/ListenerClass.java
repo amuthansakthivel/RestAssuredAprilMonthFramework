@@ -1,6 +1,7 @@
 package com.tmb.listeners;
 
 import java.io.IOException;
+import java.util.Arrays;
 
 import org.testng.ISuite;
 import org.testng.ISuiteListener;
@@ -29,19 +30,21 @@ public class ListenerClass implements ITestListener, ISuiteListener{
 	
 	@Override
 	public void onTestStart(ITestResult result) {
-		ExtentReport.createTest(result.getName());
-	
+		ExtentReport.createTest(result.getMethod().getDescription());
+		ExtentLogger.pass(result.getMethod().getDescription()+ " is started successfully");
 	}
 	
 	@Override
 	public void onTestSuccess(ITestResult result) {
+		
 		ExtentLogger.pass(result.getName()+ " is passed");
 	}
 	
 	@Override
 	public void onTestFailure(ITestResult result) {
 		ExtentLogger.fail(result.getThrowable().getMessage());
-		ExtentLogger.fail(result.getName()+ " is failed");
+		ExtentLogger.logStackTraceInfoInExtentReport(Arrays.toString(result.getThrowable().getStackTrace()));
+		ExtentLogger.fail(result.getName()+ " is failed miserably");
 		
 	}
 	

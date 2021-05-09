@@ -6,7 +6,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.Map;
 
-import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import com.aventstack.extentreports.markuputils.CodeLanguage;
@@ -14,8 +13,8 @@ import com.aventstack.extentreports.markuputils.MarkupHelper;
 import com.tmb.constants.FrameworkConstants;
 import com.tmb.constants.FrameworkConstantsWithSingleton;
 import com.tmb.reports.ExtentLogger;
-import com.tmb.utils.DataProviderUtils;
 
+import io.restassured.filter.log.RequestLoggingFilter;
 import io.restassured.response.Response;
 
 public class EmployeeGetTest extends BaseTest {
@@ -24,43 +23,40 @@ public class EmployeeGetTest extends BaseTest {
 	//readable tests
 	//keep right things at right place
 	
-	@Test(enabled=false)
-	public void getEmployeesTest() {
+	
+	
+	/*
+	 * https://medium.com/codingthesmartway-com-blog/create-a-rest-api-with-json-server-36da8680136d
+	 * Please use this article to start the json-server from your end.
+	 * 
+	 */
+	
+	/*
+	 * There should be a test case matching this test name in RUNMANAGER and ITERATIONDATA sheet
+	 * If there are multiple data lines in TESTDATA sheet, it will treated as iteration
+	 * Mark Yes in RUNMANAGER and ITERATIONDATA to run this test case
+	 * 
+	 */
 
-		Response response = given()
-				.baseUri(FrameworkConstantsWithSingleton.getInstance().getBaseuri())
-				.get(FrameworkConstantsWithSingleton.getInstance().getGetemployeeendpoint());
-
-		logResponse(response);
-
-		assertThat(response.getStatusCode())
-		.isEqualTo(STATUSCODE_200);
-
-	}
+	
 
 
 	@Test
 	public void getEmployeeDetail(Map<String,String> data) {
 		Response response = given()
+				.filter(new RequestLoggingFilter(captor))
 				.baseUri(FrameworkConstants.getBaseURI())
 				.pathParam("id", data.get("id"))
 				.get("/employees/{id}");
+		
+		ExtentLogger.logRequestAndResponseInReport(writer.toString(), response.prettyPrint());
 
-		logResponse(response);
-		assertingResponse(data.get("email"), response);
-
-	}
-
-
-	private void logResponse(Response response) {
-		ExtentLogger.info(MarkupHelper.createCodeBlock(response.asPrettyString(), CodeLanguage.JSON));
-	}
-
-
-	private void assertingResponse(String email, Response response) {
 		assertThat(response.getStatusCode()).isEqualTo(STATUSCODE_200);
-		assertThat(response.jsonPath().get("email")).isEqualTo(email);
+
 	}
+
+
+	
 
 
 	/*
